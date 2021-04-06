@@ -114,3 +114,4 @@ class BlogController extends AbstractController
 // redirectToRoute : fonction qui permet de créer une redirection vers une autre route
 // Twig: fonction form() : permet de'afficher simplement un formulaire Symfony
 // Twig : les templates : créer des templates de forms pour décider leur affichage
+// Contraintes Symfony : nous permettent de soumettre des données à des contraintes
