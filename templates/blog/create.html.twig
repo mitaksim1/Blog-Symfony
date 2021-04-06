@@ -17,7 +17,13 @@
     {{ form_row(formArticle.image, {'attr': {'placeholder': "URL de l'image"}}) }} 
 
     {# On crée le bouton ici et non pas directement dans le createFormBuilder, parce qu'éventuellment on pourra utiliser ce même form dans une autre view avec un autre bouton, alors on metrra chaque bouton dans sa vue spécifique #}
-    <button type="submit" class="btn btn-success">Ajouter l'article</button>
+    <button type="submit" class="btn btn-success">
+        {% if editMode %}
+            Enregistrer les modifications
+        {% else %}
+            Ajouter l'article
+        {% endif %}
+    </button>
 
     {# Une fois qu'on a fini de travailler avec le form on ferme la balise#}
     {{ form_end(formArticle) }}

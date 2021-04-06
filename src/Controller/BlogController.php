@@ -38,12 +38,17 @@ class BlogController extends AbstractController
     // 3 pilliers pour une page : une fonction, une route, une réponse (affichage/redirection)
     /**
      * @Route("/blog/new", name="blog_create")
+     * @route("/blog/{id}/edit", name="blog_edit")
      */
-    public function create(Request $request, EntityManagerInterface $manager) 
+    // paramConverter : convertit un paramètre en une entité $id = Article
+    // Comme on a deux routes maintenant, il faut préciser que l'article peut être null (dans le cas où on est dans la route /blog/new)
+    public function form(Article $article = null, Request $request, EntityManagerInterface $manager) 
     {
-        // Avant de créer le form, on instancie la classe Article
-        $article = new Article();
-
+        // Si on a pas d'article, on veut la possibilité d'en créer un
+        if (!$article) {
+            $article = new Article();
+        }
+    
         // Pour créer un form on utilise la fonction createFormBuilder de Symfony qui demande comme paramètre juste l'entité à laquelle on fait référence
         // $form est un objet
         $form = $this->createFormBuilder($article)
@@ -58,15 +63,14 @@ class BlogController extends AbstractController
         // La méthode handleRequest contenue dans la classe Request va traiter les données reçues
         $form->handleRequest($request);
 
-        // On a fait un dump pour voir l'avant/après du remplissage du formulaire
-        // Avant: toutes les propriétés sont nulles
-        // Après: une fois que l'on a rempli les inputs le dump nous montre les valeurs saisies 
-        // dump($article);
-
         // Une fois que l'on a vérifié que les données sont bien renseignées et valides, on peut les enregistrer
         if ($form->isSubmitted() && $form->isValid()) {
-            // Il nous faut la date de création de l'article, on peut le setter ici
-            $article->setCreatedAt(new \DateTime());
+            // Je vérifie si l'article existe déjà (s'il a un id ça veut dire qu'il existe), si ce n'est pas le cas on ajoute la date de création
+            if(!$article->getId()) {
+                // Il nous faut la date de création de l'article, on peut le setter ici
+                $article->setCreatedAt(new \DateTime());
+            }
+           
 
             // On a toutes les informations, on peut persister les données et les flush
             $manager->persist($article);
@@ -79,7 +83,9 @@ class BlogController extends AbstractController
         // On passe à Twig non pas l'objet $form entier, mais juste une de ses méthodes (createView()) qui va s'occuper d'afficher les données du form
         return $this->render('blog/create.html.twig', [
             // pour éviter toute ambigüite avec le form() de Twig on va nommer la variable formArticle
-            'formArticle' => $form->createView()
+            'formArticle' => $form->createView(),
+            // On a le même bouton si on est la page edit ou new pour changer ça
+            'editMode' => $article->getId() !== null
         ]);
     }
 
