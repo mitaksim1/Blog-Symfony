@@ -4,4 +4,29 @@
 
     <h1>Création d'un article</h1>
 
+    {# form_start c'est une méthode de Twig qui va ouvrir la balise form avec la bonne méthode et les bonnes actions nécéssaires au bon fonctionnement du formulaire #}
+    {{ form_start(formArticle) }}
+
+    <div class="form-group">
+        <label for="">Titre</label>
+        {# form_widget permet da'afficher un champ précis #}
+        {{ form_widget(formArticle.title) }}
+    </div>
+    {# On passe à la méthode form de Twig, la variable que l'on avait crée avec notre formulaire #}
+    {# {{ form(formArticle) }} Cette partie on l'a commenté à partir du moment où on a ouvert la balise form avec form_start et on a séléctionné les inputs que l'on voulait afficher avec le form_widget #}
+    <div class="form-group">
+        <label for="">Contenu</label>
+        {# form_widget permet da'afficher un champ précis #}
+        {{ form_widget(formArticle.content) }}
+    </div>
+    
+    <div class="form-group">
+        <label for="">Image</label>
+        {# form_widget permet da'afficher un champ précis #}
+        {{ form_widget(formArticle.image) }}
+    </div>
+
+    {# Une fois qu'on a fini de travailler avec le form on ferme la balise#}
+    {{ form_end(formArticle) }}
+
 {% endblock %}
