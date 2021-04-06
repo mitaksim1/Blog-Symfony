@@ -34,7 +34,16 @@ class BlogController extends AbstractController
             'age' => 31
         ]);
     }
-
+    
+    // 3 pilliers pour une page : une fonction, une route, une réponse (affichage/redirection)
+    /**
+     * @Route("/blog/new", name="blog_create")
+     */
+    public function create() 
+    {
+        return $this->render('blog/create.html.twig');
+    }
+    
     /**
      *@route("/blog/{id}", name="blog_show")
      */
@@ -45,4 +54,5 @@ class BlogController extends AbstractController
             'article' => $article
         ]);
     }
+
 }
