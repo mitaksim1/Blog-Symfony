@@ -1,0 +1,28 @@
+#App\Entity\Genre: # namespace de l'entité
+#    genre_{1..42}: #le nombre d'iteration d'entité souhaité ici : genre_1, genre_2...genre_23
+#        name: '<word()>' <-- numberBetween(0,5), sentence(),(...)  cf (https://github.com/fzaninotto/Faker#basic-usage)
+# Le code ci dessous a été récupéré dans la fiche récap o'clock
+
+App\Entity\Article:
+    article{1..10}:
+        title: '<word()>'
+        content: '<text(55)>'
+        image: '<imageUrl(640, 480)>'
+        createdAt: '<date_create()>'
+        category: '@category*'
+
+App\Entity\Category:
+    category{1..5}:
+        title: '<word()>'
+        description: '<text()>'
+
+App\Entity\Comment:
+    comment{1..23}:
+        author: '<name()>'
+        content: '<text(55)>'
+        createdAt: '<date_create()>'
+        article: '@article*'
+
+# On précise pour chaque entité le nombre des fausses données que l'on souhaite avoir {1..10}
+# Pour chaque propriété, on précise le type de données attendues en suivant les régles de nomenclature <word()> por un mot <text()> pour un texte plus long, etc... cf https://github.com/fzaninotto/Faker#basic-usage
+# Pour les relations, on se base sur l'entité propriétaire (celle qui a le inversedBy), dans le cas de Article on ajoute donc la propriété category, le @category* demande à ce qu'on mette une catégorie au hasard aux articles crées cf. fiche récap https://github.com/O-clock-Alumni/fiches-recap/blob/master/symfony/themes/fixtures-advanced-alice.md, on fait le même avec article dans l'entité comment  

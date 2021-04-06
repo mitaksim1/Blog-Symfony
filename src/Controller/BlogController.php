@@ -115,3 +115,4 @@ class BlogController extends AbstractController
 // Twig: fonction form() : permet de'afficher simplement un formulaire Symfony
 // Twig : les templates : créer des templates de forms pour décider leur affichage
 // Contraintes Symfony : nous permettent de soumettre des données à des contraintes
+// Les scripts fixtures : permettent de remplir les tables avec des fausses données
