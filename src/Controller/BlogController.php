@@ -54,18 +54,21 @@ class BlogController extends AbstractController
         // attr : tableau d'attribut html que je veux passer
                     ->add('title', TextType::class, [
                         'attr' => [
-                            'placeholder' => "Titre de l'article"
+                            'placeholder' => "Titre de l'article",
+                            'class' => 'form-control'
                         ]
                     ])
                     // Si je veux, je peut préciser le type de l'input que je veux
                     ->add('content', TextareaType::class, [
                         'attr' => [
-                            'placeholder' => "Contenu de l'article"
+                            'placeholder' => "Contenu de l'article",
+                            'class' => 'form-control'
                         ]
                     ])
                     ->add('image', TextType::class, [
                         'attr' => [
-                            'placeholder' => "Image de l'article"
+                            'placeholder' => "Image de l'article",
+                            'class' => 'form-control'
                         ]
                     ])
                     ->getForm(); // après avoir renseigné les champs à construire, on lui demande de créer le form avec cette méthode
