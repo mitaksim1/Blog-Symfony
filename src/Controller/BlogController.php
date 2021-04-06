@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
 
@@ -38,7 +39,7 @@ class BlogController extends AbstractController
     /**
      * @Route("/blog/new", name="blog_create")
      */
-    public function create(Request $request) 
+    public function create(Request $request, EntityManagerInterface $manager) 
     {
         // Avant de créer le form, on instancie la classe Article
         $article = new Article();
@@ -53,6 +54,27 @@ class BlogController extends AbstractController
                     ->add('content')
                     ->add('image')
                     ->getForm(); // après avoir renseigné les champs à construire, on lui demande de créer le form avec cette méthode
+
+        // La méthode handleRequest contenue dans la classe Request va traiter les données reçues
+        $form->handleRequest($request);
+
+        // On a fait un dump pour voir l'avant/après du remplissage du formulaire
+        // Avant: toutes les propriétés sont nulles
+        // Après: une fois que l'on a rempli les inputs le dump nous montre les valeurs saisies 
+        // dump($article);
+
+        // Une fois que l'on a vérifié que les données sont bien renseignées et valides, on peut les enregistrer
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Il nous faut la date de création de l'article, on peut le setter ici
+            $article->setCreatedAt(new \DateTime());
+
+            // On a toutes les informations, on peut persister les données et les flush
+            $manager->persist($article);
+            $manager->flush();
+
+            // Une fois que tout est fait, on sera redirigé vers la page de l'article crée.
+            return $this->redirectToRoute('blog_show', ['id' => $article->getId() ]);
+        }
 
         // On passe à Twig non pas l'objet $form entier, mais juste une de ses méthodes (createView()) qui va s'occuper d'afficher les données du form
         return $this->render('blog/create.html.twig', [
