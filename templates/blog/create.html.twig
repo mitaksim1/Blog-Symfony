@@ -10,7 +10,11 @@
     {# form_start c'est une méthode de Twig qui va ouvrir la balise form avec la bonne méthode et les bonnes actions nécéssaires au bon fonctionnement du formulaire #}
     {{ form_start(formArticle) }}
 
-    {{ form_widget(formArticle) }} 
+    {# form_row nous permet de préciser champs par champs ce que l'on veut (label, attribut et aussi les possibles erreurs qu'y sont dedans) #}
+    {# Premier paramètre : le champs que l'on veut, deuxième paramètre un tableau associatif (en Twig on les éctrit comme des objets en JS #}
+    {{ form_row(formArticle.title, {'attr': {'placeholder': "Titre de l'article"}}) }} 
+    {{ form_row(formArticle.content, {'attr': {'placeholder': "Contenu de l'article"}}) }} 
+    {{ form_row(formArticle.image, {'attr': {'placeholder': "URL de l'image"}}) }} 
 
     {# On crée le bouton ici et non pas directement dans le createFormBuilder, parce qu'éventuellment on pourra utiliser ce même form dans une autre view avec un autre bouton, alors on metrra chaque bouton dans sa vue spécifique #}
     <button type="submit" class="btn btn-success">Ajouter l'article</button>

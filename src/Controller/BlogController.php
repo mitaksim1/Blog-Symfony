@@ -6,8 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
 
@@ -30,11 +28,9 @@ class BlogController extends AbstractController
      * @Route("/", name="home")
      */
     public function home()
-    {
-       
+    {   
         return $this->render('blog/home.html.twig', [
-            'title' => "Bienvenue ici les amis !",
-            'age' => 31
+            'title' => "Bienvenue ici les amis !"
         ]);
     }
     
@@ -52,22 +48,10 @@ class BlogController extends AbstractController
         $form = $this->createFormBuilder($article)
         // Pour que ça marche, on doit lui préciser mes champs qu'il doit traiter
         // attr : tableau d'attribut html que je veux passer
-                    ->add('title', TextType::class, [
-                        'attr' => [
-                            'placeholder' => "Titre de l'article"
-                        ]
-                    ])
+                    ->add('title')
                     // Si je veux, je peut préciser le type de l'input que je veux
-                    ->add('content', TextareaType::class, [
-                        'attr' => [
-                            'placeholder' => "Contenu de l'article"
-                        ]
-                    ])
-                    ->add('image', TextType::class, [
-                        'attr' => [
-                            'placeholder' => "Image de l'article"
-                        ]
-                    ])
+                    ->add('content')
+                    ->add('image')
                     ->getForm(); // après avoir renseigné les champs à construire, on lui demande de créer le form avec cette méthode
 
         // On passe à Twig non pas l'objet $form entier, mais juste une de ses méthodes (createView()) qui va s'occuper d'afficher les données du form
