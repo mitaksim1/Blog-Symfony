@@ -54,21 +54,18 @@ class BlogController extends AbstractController
         // attr : tableau d'attribut html que je veux passer
                     ->add('title', TextType::class, [
                         'attr' => [
-                            'placeholder' => "Titre de l'article",
-                            'class' => 'form-control'
+                            'placeholder' => "Titre de l'article"
                         ]
                     ])
                     // Si je veux, je peut préciser le type de l'input que je veux
                     ->add('content', TextareaType::class, [
                         'attr' => [
-                            'placeholder' => "Contenu de l'article",
-                            'class' => 'form-control'
+                            'placeholder' => "Contenu de l'article"
                         ]
                     ])
                     ->add('image', TextType::class, [
                         'attr' => [
-                            'placeholder' => "Image de l'article",
-                            'class' => 'form-control'
+                            'placeholder' => "Image de l'article"
                         ]
                     ])
                     ->getForm(); // après avoir renseigné les champs à construire, on lui demande de créer le form avec cette méthode
@@ -98,3 +95,4 @@ class BlogController extends AbstractController
 // ParameterBag : Un objet qui renferme les données passées par le POST / GET, si requête en POST ragrader dans l'onglet request, si en GET regarder
 // redirectToRoute : fonction qui permet de créer une redirection vers une autre route
 // Twig: fonction form() : permet de'afficher simplement un formulaire Symfony
+// Twig : les templates : créer des templates de forms pour décider leur affichage
