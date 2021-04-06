@@ -10,7 +10,10 @@
     {# form_start c'est une méthode de Twig qui va ouvrir la balise form avec la bonne méthode et les bonnes actions nécéssaires au bon fonctionnement du formulaire #}
     {{ form_start(formArticle) }}
 
-    {{ form_widget(formArticle) }}
+    {{ form_widget(formArticle) }} 
+
+    {# On crée le bouton ici et non pas directement dans le createFormBuilder, parce qu'éventuellment on pourra utiliser ce même form dans une autre view avec un autre bouton, alors on metrra chaque bouton dans sa vue spécifique #}
+    <button type="submit" class="btn btn-success">Ajouter l'article</button>
 
     {# Une fois qu'on a fini de travailler avec le form on ferme la balise#}
     {{ form_end(formArticle) }}
