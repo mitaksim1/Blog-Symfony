@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Form\ArticleType;
 
 class BlogController extends AbstractController
 {
@@ -51,14 +52,19 @@ class BlogController extends AbstractController
     
         // Pour créer un form on utilise la fonction createFormBuilder de Symfony qui demande comme paramètre juste l'entité à laquelle on fait référence
         // $form est un objet
-        $form = $this->createFormBuilder($article)
-        // Pour que ça marche, on doit lui préciser mes champs qu'il doit traiter
-        // attr : tableau d'attribut html que je veux passer
-                    ->add('title')
-                    // Si je veux, je peut préciser le type de l'input que je veux
-                    ->add('content')
-                    ->add('image')
-                    ->getForm(); // après avoir renseigné les champs à construire, on lui demande de créer le form avec cette méthode
+        // $form = $this->createFormBuilder($article)
+        // // Pour que ça marche, on doit lui préciser mes champs qu'il doit traiter
+        // // attr : tableau d'attribut html que je veux passer
+        //             ->add('title')
+        //             // Si je veux, je peut préciser le type de l'input que je veux
+        //             ->add('content')
+        //             ->add('image')
+        //             ->getForm(); // après avoir renseigné les champs à construire, on lui demande de créer le form avec cette méthode
+
+        // Deuxième méthode pour la création d'un form grâce à make:form
+        // Une fois que le form sera crée automaqtiquement par Symfony, on aura qu'à l'appeler comme suit
+        // En premier paramètre on passe le fichier form et en deuxième paramètre l'entité auquel il est lié
+        $form = $this->createForm(ArticleType::class, $article);
 
         // La méthode handleRequest contenue dans la classe Request va traiter les données reçues
         $form->handleRequest($request);
