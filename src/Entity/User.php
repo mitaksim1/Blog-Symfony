@@ -8,9 +8,14 @@ use App\Repository\UserRepository;
 // Les annotations constraints permettent de valider les champs
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ *  fields={"email"},
+ *  message="L'email que vous avez indiqué est déjà utilisé"
+ * ) // permet d'assurer qu'un user est unique en fonction d'un champ
  */
 // La classe User a besoin de certaines méthodes que l'on a pas implémenté dans notre code
 // C'est pour ça qu'on implement UserInterface, comme ça Symfony saura que cette entité correspond à la table de nos utilisateurs
@@ -25,6 +30,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
      */
     private $email;
 
