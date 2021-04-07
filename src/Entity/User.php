@@ -32,6 +32,10 @@ class User
      */
     private $password;
 
+    // Comme on a crée un nouveau champs dans le fichier RegistrationType, il faut l'ajouter dans l'entité
+    // Pas la peinde de mettre l'ORM parce quil fait pas partie de la bdd, c'est juste un champs que l'on a ajouté à notre formulaire
+    public $confirm_password;
+
     public function getId(): ?int
     {
         return $this->id;
