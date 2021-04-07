@@ -24,9 +24,13 @@ security:
             form_login:
                 login_path: security_login
                 check_path: security_login
-
             
-
+            # Propriété qui va s'occuper du logout
+            # target : où est-ce que je veux aller après le logout
+            logout:
+                path: security_logout
+                target: blog
+                
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

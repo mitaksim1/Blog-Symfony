@@ -60,6 +60,15 @@ class SecurityController extends AbstractController
     {
         return $this->render('security/login.html.twig');
     }
+
+    /**
+     * @Route("/deconnexion", name="security_logout")
+     * Comme pour la méthode login, c'est dans le fichier security.yaml que l'on va créer la propriété qui va s'occuper de déconnecter un user
+     */
+    public function logout()
+    {
+
+    }
 }
 
 
