@@ -100,12 +100,31 @@ class BlogController extends AbstractController
     /**
      *@route("/blog/{id}", name="blog_show")
      */
-    public function show(Article $article)
+    // Ne pas oublier que pour récupérer les informations d'un formulaire on a besoin de l'objet Request
+    // On aura besoin de EntityManagerInterface $manager pour sauvegarder les données reçues dans la bdd
+    public function show(Article $article, Request $request, EntityManagerInterface $manager)
     {
         // Pour pouvoir relier les commentaires avec le formulaire, je dois instancier la classe Comment
         $comment = new Comment();
         // Création du formulaire pour laisser un commentaire dans la page de l'article
         $form = $this->createForm(CommentType::class, $comment);
+
+        // Récupérer les informations passés au formulaires grâce à l'objet Request
+        $form->handleRequest($request);
+
+        // Vérifier toujours si les données sont bien reçues et si elles sont valides
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Avant que le commentaire soit sauvegardé dans la bdd, on veut setter sa date et l'article auquel il est relié
+            $comment->setCreatedAt(new \DateTime())
+                    ->setArticle($article);
+
+            // Demander à $manager de les sauvegarder
+            $manager->persist($comment);
+            $manager->flush();
+
+            // On redirige la page vers la page de l'article en question
+            return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);
+        }
         
         return $this->render('blog/show.html.twig', [
             'article' => $article,
