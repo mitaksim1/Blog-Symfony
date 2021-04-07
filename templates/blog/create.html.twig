@@ -13,6 +13,8 @@
     {# form_row nous permet de préciser champs par champs ce que l'on veut (label, attribut et aussi les possibles erreurs qu'y sont dedans) #}
     {# Premier paramètre : le champs que l'on veut, deuxième paramètre un tableau associatif (en Twig on les éctrit comme des objets en JS #}
     {{ form_row(formArticle.title, {'attr': {'placeholder': "Titre de l'article"}}) }} 
+    {# Une fois le champs category crée, on vient l'ajouter à la vue #}
+    {{ form_row(formArticle.category) }} 
     {{ form_row(formArticle.content, {'attr': {'placeholder': "Contenu de l'article"}}) }} 
     {{ form_row(formArticle.image, {'attr': {'placeholder': "URL de l'image"}}) }} 
 

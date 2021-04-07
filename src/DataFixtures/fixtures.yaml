@@ -5,9 +5,9 @@
 
 App\Entity\Article:
     article{1..10}:
-        title: '<word()>'
+        title: '<sentence()>'
         content: '<text(55)>'
-        image: '<imageUrl(640, 480)>'
+        image: '<imageUrl(350, 150)>'
         createdAt: '<date_create()>'
         category: '@category*'
 
@@ -26,3 +26,4 @@ App\Entity\Comment:
 # On précise pour chaque entité le nombre des fausses données que l'on souhaite avoir {1..10}
 # Pour chaque propriété, on précise le type de données attendues en suivant les régles de nomenclature <word()> por un mot <text()> pour un texte plus long, etc... cf https://github.com/fzaninotto/Faker#basic-usage
 # Pour les relations, on se base sur l'entité propriétaire (celle qui a le inversedBy), dans le cas de Article on ajoute donc la propriété category, le @category* demande à ce qu'on mette une catégorie au hasard aux articles crées cf. fiche récap https://github.com/O-clock-Alumni/fiches-recap/blob/master/symfony/themes/fixtures-advanced-alice.md, on fait le même avec article dans l'entité comment  
+# Commande à lancer dès que tout sera bon : doctrine:fixtures:load --group=NelmioAlice
