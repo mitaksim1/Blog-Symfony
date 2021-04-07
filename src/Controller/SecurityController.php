@@ -38,15 +38,30 @@ class SecurityController extends AbstractController
             $manager->persist($user);
             // 8. On envoit les informations à la bdd
             $manager->flush();
+            // Après que la méthode login a été crée on peut rediriger vers cette page
+            return $this->redirectToRoute('security_login');
         }
 
         // 3. On retourne la vue avec les variables souhaitées
         return $this->render('security/registration.html.twig', [
             'form' => $form->createView(),
         ]);
+
+        // 8. Au moment de tester j'ai eu l'erreur suivante : 
+        // "Cannot autowire argument $manager of "App\Controller\SecurityController::registration()": it references interface "Doctrine\Persistence\ObjectManager" but no such service exists. You should maybe alias this interface to the existing "doctrine.orm.default_entity_manager" service.
+        // J'ai fait un use de EntityManagerInterface alors et ça a marché!
+    }
+
+    // Création de la méthode login
+    /**
+     * @Route("/connexion", name="security_login")
+     */
+    public function login()
+    {
+        return $this->render('security/login.html.twig');
     }
 }
 
-// 8. Au moment de tester j'ai eu l'erreur suivante : 
-// "Cannot autowire argument $manager of "App\Controller\SecurityController::registration()": it references interface "Doctrine\Persistence\ObjectManager" but no such service exists. You should maybe alias this interface to the existing "doctrine.orm.default_entity_manager" service.
-// J'ai fait un use de EntityManagerInterface alors et ça a marché!
+
+
+    
