@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Inscription sur le site</h1>
+
+    {# J'ouvre la balise form de mon formulaire #}
+    {{ form_start(form) }}
+    {# Je veux afficher tous les champs #}
+    {{ form_widget(form) }}
+    {# Avant la fermeture du form, on ajoute le bouton #}
+    <button type="submit" class="btn btn-success">Inscription</button>
+    {# Je ferme la balise du form #}
+    {{ form_end(form) }}
+
+
+{% endblock %}

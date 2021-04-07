@@ -15,6 +15,7 @@ class RegistrationType extends AbstractType
             ->add('email')
             ->add('username')
             ->add('password')
+            // On rajoute la propriété suivante, qu'il va falloir rajouter aussi à l'entité User
             ->add('confirm_password')
         ;
     }
