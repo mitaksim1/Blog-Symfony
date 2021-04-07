@@ -2,14 +2,16 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Article;
+use App\Entity\Comment;
+use App\Form\ArticleType;
+use App\Form\CommentType;
+use App\Repository\ArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Article;
-use App\Repository\ArticleRepository;
-use App\Form\ArticleType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BlogController extends AbstractController
 {
@@ -100,9 +102,14 @@ class BlogController extends AbstractController
      */
     public function show(Article $article)
     {
-
+        // Pour pouvoir relier les commentaires avec le formulaire, je dois instancier la classe Comment
+        $comment = new Comment();
+        // Création du formulaire pour laisser un commentaire dans la page de l'article
+        $form = $this->createForm(CommentType::class, $comment);
+        
         return $this->render('blog/show.html.twig', [
-            'article' => $article
+            'article' => $article,
+            'commentForm' => $form->createView()
         ]);
     }
 
