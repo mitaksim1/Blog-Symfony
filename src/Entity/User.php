@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+// Grâce à ce use on pourra vérifier si les mots de passe correspondent
+// Les annotations constraints permettent de valider les champs
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -29,11 +32,15 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit faire minimum 8 caractères") 
      */
     private $password;
 
     // Comme on a crée un nouveau champs dans le fichier RegistrationType, il faut l'ajouter dans l'entité
     // Pas la peinde de mettre l'ORM parce quil fait pas partie de la bdd, c'est juste un champs que l'on a ajouté à notre formulaire
+    /**
+     * @Assert\EqualTo(propertyPath="password", message="Vous n'avez pas tapé le même mot de passe")
+     */
     public $confirm_password;
 
     public function getId(): ?int
