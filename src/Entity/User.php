@@ -2,16 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
 // Grâce à ce use on pourra vérifier si les mots de passe correspondent
 // Les annotations constraints permettent de valider les champs
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+// La classe User a besoin de certaines méthodes que l'on a pas implémenté dans notre code
+// C'est pour ça qu'on implement UserInterface, comme ça Symfony saura que cette entité correspond à la table de nos utilisateurs
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -82,5 +85,15 @@ class User
         $this->password = $password;
 
         return $this;
+    }
+    // Si on implémente une interface, on doit implementer ses méthodes
+    public function eraseCredentials() {}
+
+    public function getSalt() {}
+
+    // Quel est le rôle de l'user
+    public function getRoles() 
+    {
+        return ['ROLE_USER'];
     }
 }

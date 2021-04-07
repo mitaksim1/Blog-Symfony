@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {
@@ -16,7 +17,8 @@ class SecurityController extends AbstractController
      * @Route("/inscription", name="security_registration")
      */
     // 4. En passant Request et ObjectManager à Symfony il sait que ce controlleur doit nous fournir par injection des dépendances la requête HTTP et le manager
-    public function registration(Request $request, EntityManagerInterface $manager): Response
+    // 9. Après avoir créer les contraintes pour les mot de passe dans l'entité User, on a crée un encoder dans security.yaml, pour pouvoir l'utiliser dans notre controlleur je dois appeler UserPasswordEncoderInterface
+    public function registration(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder): Response
     {
         // 2. Les données de se form sont relié à l'entité User, alors on instancie cette classe pour après pouvoir la passer en deuxième paramètre de la fonction createForm
         $user = new User();
@@ -28,6 +30,10 @@ class SecurityController extends AbstractController
 
         // 6. On vérifie que le formulaire est bien rempli et que les données sont valides
         if($form->isSubmitted() && $form->isValid()) {
+            // 10. Avant de sauvegarder l'utilisateur je veux hasher son mot de passe, on avait passé l'entité user au moment de créer l'encoder, Symfony va donc "comprendre" automatiquement que c'est le mot de passe de l'utilisateur à hasher
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+            // 11. On set le mot de passe hashé
+            $user->setPassword($hash);
             // 7. On demande à manager de persister l'utilisateur qui vient de s'inscrire
             $manager->persist($user);
             // 8. On envoit les informations à la bdd
